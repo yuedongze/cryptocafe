@@ -1,0 +1,5 @@
+baseURL = 'https://c.rypto.cafe/'
+languageCode = 'en-us'
+title = 'Crypto Cafe ☕'
+theme = 'paper'
+relativeURLs = true
