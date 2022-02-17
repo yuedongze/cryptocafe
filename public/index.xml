@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Crypto Cafe ☕</title>
+    <link>https://c.rypto.cafe/</link>
+    <description>Recent content on Crypto Cafe ☕</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 14 Feb 2022 22:31:56 -0800</lastBuildDate><atom:link href="https://c.rypto.cafe/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello, Crypto</title>
+      <link>https://c.rypto.cafe/posts/hello-world/</link>
+      <pubDate>Mon, 14 Feb 2022 22:31:56 -0800</pubDate>
+      
+      <guid>https://c.rypto.cafe/posts/hello-world/</guid>
+      <description>Bitcoin?
+def mine_btc(block): while True: nonce = random.randbytes(32) if hashlib.sha256(block + nonce).digest().hex()[:8] == &amp;quot;00000000&amp;quot;: print(&amp;quot;I&#39;m rich!&amp;quot;) return Or maybe some $\mathcal{math}$ helps:
+$$ e = mc^2 $$</description>
+    </item>
+    
+  </channel>
+</rss>
