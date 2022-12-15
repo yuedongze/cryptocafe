@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>Permutated Kernel Problem - Crypto Cafe ☕</title>
+
+  
+  
+  <meta name="description" content="PKPDSS: Permuted-Kernel-Problem-based Digital Signature Scheme Based on: PKP-IDS, Permutation based identification protocol.
+Idea: PKP is a problem where one is give a random matrix $A$ and a vector $v$. Then they are asked to find a permutation $\pi$ such that $A v_\pi = 0$, i.e. $v_\pi$ is the right kernel of $A$.
+Finding such permutation $\pi$ is an NP-hard problem. However, we could use a 5-round public-coin interactive protocol to prove knowledge of the secret permutation $\pi$." />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://c.rypto.cafe/app.min.css" />
+
+  
+  <link rel="preload stylesheet" as="style" href="https://c.rypto.cafe/an-old-hope.min.css" />
+  <script
+    defer
+    src="https://c.rypto.cafe/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  <link rel="preload" as="image" href="https://c.rypto.cafe/theme.png" />
+
+  
+
+  
+  <link rel="icon" href="https://c.rypto.cafe/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://c.rypto.cafe/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.92.2" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="Permutated Kernel Problem" />
+<meta property="og:description" content="PKPDSS: Permuted-Kernel-Problem-based Digital Signature Scheme Based on: PKP-IDS, Permutation based identification protocol.
+Idea: PKP is a problem where one is give a random matrix $A$ and a vector $v$. Then they are asked to find a permutation $\pi$ such that $A v_\pi = 0$, i.e. $v_\pi$ is the right kernel of $A$.
+Finding such permutation $\pi$ is an NP-hard problem. However, we could use a 5-round public-coin interactive protocol to prove knowledge of the secret permutation $\pi$." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://c.rypto.cafe/posts/pkp/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-02-16T16:21:14-08:00" />
+<meta property="article:modified_time" content="2022-02-16T16:21:14-08:00" />
+
+
+  
+  <meta itemprop="name" content="Permutated Kernel Problem">
+<meta itemprop="description" content="PKPDSS: Permuted-Kernel-Problem-based Digital Signature Scheme Based on: PKP-IDS, Permutation based identification protocol.
+Idea: PKP is a problem where one is give a random matrix $A$ and a vector $v$. Then they are asked to find a permutation $\pi$ such that $A v_\pi = 0$, i.e. $v_\pi$ is the right kernel of $A$.
+Finding such permutation $\pi$ is an NP-hard problem. However, we could use a 5-round public-coin interactive protocol to prove knowledge of the secret permutation $\pi$."><meta itemprop="datePublished" content="2022-02-16T16:21:14-08:00" />
+<meta itemprop="dateModified" content="2022-02-16T16:21:14-08:00" />
+<meta itemprop="wordCount" content="1082">
+<meta itemprop="keywords" content="" />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Permutated Kernel Problem"/>
+<meta name="twitter:description" content="PKPDSS: Permuted-Kernel-Problem-based Digital Signature Scheme Based on: PKP-IDS, Permutation based identification protocol.
+Idea: PKP is a problem where one is give a random matrix $A$ and a vector $v$. Then they are asked to find a permutation $\pi$ such that $A v_\pi = 0$, i.e. $v_\pi$ is the right kernel of $A$.
+Finding such permutation $\pi$ is an NP-hard problem. However, we could use a 5-round public-coin interactive protocol to prove knowledge of the secret permutation $\pi$."/>
+
+  
+  
+
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css" integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js" integrity="sha384-VQ8d8WVFw0yHhCk5E8I86oOhv48xLpnDZx5T9GogA/Y84DcCKWXDmSDfn13bzFZY" crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+
+</head>
+
+
+  <body class="not-ready" data-menu="false">
+    <header class="header">
+  
+  <p class="logo">
+    <a class="site-name" href="https://c.rypto.cafe/">Crypto Cafe ☕</a><a class="btn-dark"></a>
+  </p>
+  
+
+  <script>
+    let bodyClx = document.body.classList;
+    let btnDark = document.querySelector('.btn-dark');
+    let sysDark = window.matchMedia('(prefers-color-scheme: dark)');
+    let darkVal = localStorage.getItem('dark');
+
+    let setDark = (isDark) => {
+      bodyClx[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark ? 'yes' : 'no');
+    };
+
+    setDark(darkVal ? darkVal === 'yes' : sysDark.matches);
+    requestAnimationFrame(() => bodyClx.remove('not-ready'));
+
+    btnDark.addEventListener('click', () => setDark(!bodyClx.contains('dark')));
+    sysDark.addEventListener('change', (event) => setDark(event.matches));
+  </script>
+
+  
+  
+
+  
+</header>
+
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-title">
+    <p>
+      
+      <time>Feb 16, 2022</time>
+      
+      
+    </p>
+    <h1>Permutated Kernel Problem</h1>
+  </header>
+  <section class="post-content"><h1 id="pkpdss-permuted-kernel-problem-based-digital-signature-scheme">PKPDSS: Permuted-Kernel-Problem-based Digital Signature Scheme</h1>
+<p>Based on: PKP-IDS, Permutation based identification protocol.</p>
+<p>Idea: PKP is a problem where one is give a random matrix $A$ and a vector $v$. Then they are asked to find a permutation $\pi$ such that $A v_\pi = 0$, i.e. $v_\pi$ is the right kernel of $A$.</p>
+<p>Finding such permutation $\pi$ is an NP-hard problem. However, we could use a 5-round public-coin interactive protocol to prove knowledge of the secret permutation $\pi$.</p>
+<p>We will try to explore how PKP-IDS works, and then follow <a href="https://www.esat.kuleuven.be/cosic/publications/article-3103.pdf">Beullens et. al. 2018</a> to compress PKP-IDS into PKP-DSS.</p>
+<h2 id="keygen">Keygen</h2>
+<p>The keygen of PKP-IDS is the following.</p>
+<p>First, we need to sample a random matrix $A$ and a secret permutation $\pi$. Then we need to find a right kernel $w = Ker(A)$ such that $Aw = 0$. We apply the inverse permutation on $w$ and get $v = w_{\pi^{-1}}$. Then our public key is simply $(A, v)$ and our secret key is the permutation $\pi$.</p>
+<p>A few interesting observations that <a href="https://www.esat.kuleuven.be/cosic/publications/article-3103.pdf">Beullens et. al. 2018</a> has pointed out are:</p>
+<ul>
+<li>
+<p>With high probability, we can convert a random matrix $A$ of dimension $m \times n$ into form $[I_m \vert A']$ where $A' \in \mathbb{F}_p^{m \times n-m}$. Then we no longer need to memorize the left hand side $I_m$ identity matrix so we can reduce the communication cost.</p>
+</li>
+<li>
+<p>Instead of applying Gaussian Elimination to $A$ in order to find its right kernel $w$, we could do the other way around. First, we randomly sample vector $v$ and every column but the last for matrix $A$. We leave the last column of matrix $A$ blank. We then sample a random permutation $\pi$ and set $w = v_\pi$. Essentially, we get something like:</p>
+</li>
+</ul>
+<p>$$
+\begin{bmatrix}
+a_{0,0} &amp; a_{0,1} &amp; a_{0,2} &amp; \dots &amp; a_{0,n-2} &amp; a_{0,n-1}^* \\
+\vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \vdots \\
+a_{m-1,0} &amp; a_{m-1,1} &amp; a_{m-1,2} &amp; \dots &amp; a_{m-1,n-2} &amp; a_{m-1,n-1}^*
+\end{bmatrix}
+\begin{bmatrix}
+w_0 \\
+w_1 \\
+\vdots \\
+w_{n-1}
+\end{bmatrix}
+= 0
+$$</p>
+<p>Where $a_{i,j}$ is the i-th row and j-th column of matrix $A$ and $a_{i,n-1}^*$ is the blank column.</p>
+<p>We can see that, for each row $i$, we can make $\sum_{j=0}^{n-1} a_{i,j} w_j = 0$. Since $a_{i,n-1}^*$ is left uncomputed, we can simply compute the inverse and obtain:</p>
+<p>$$a_{i,n-1}^* = \left(-\sum_{j=0}^{n-2} a_{i,j} w_j \right) \cdot w_{n-1}^{-1}$$</p>
+<p>Note $w^{-1}_{n-1}$ can be computed once and stored in memory.</p>
+<p>Then, it&rsquo;s obvious to show that:</p>
+<p>$$
+\begin{align*}
+\sum_{j=0}^{n-1} a_{i,j} w_j &amp;= a_{i,n-1}^* \cdot w_{n-1} + \sum_{i=0}^{n-2} a_{i,j} w_j\\
+&amp;= \sum_{j=0}^{n-2} a_{i,j} w_j - \sum_{j=0}^{n-2} a_{i,j} w_i\\
+&amp;= 0
+\end{align*}
+$$</p>
+<p>Therefore, we can do the dimension reduction trick together with the sampling trick, and obtain the key materials required for the IDS protocol.</p>
+<h2 id="identification-scheme">Identification Scheme</h2>
+<p>After KeyGen, we are given a public key $pk = (A, v)$ and a secret key $sk = \pi$. The next step is to perform the actual PKP-IDS scheme to achieve a zero-knowledge proof that Alice has knowledge of the secret $\pi$.</p>
+<p>The entire protocol has 5 rounds:</p>
+<ol>
+<li>First, Alice sample a random permutation $\sigma \in S_n$ and a random vector $r \in \mathbb{F}_p^n$. Then Alice generates a commitment of the following two items:</li>
+</ol>
+<ul>
+<li>$C_0 \leftarrow Com(\sigma, Ar)$, which is the commitment of matrix $A$ blinded by random vector $r$ using $\sigma$ as randomness.</li>
+<li>$C_1 \leftarrow Com(\pi\sigma, r_\sigma)$, which is the commitment of random vector $r$ (permuted by $\sigma$) using $\pi\sigma$ as randomness.</li>
+</ul>
+<ol start="2">
+<li>
+<p>Upon receiving both commitments, Bob generates a random challenge $c \in \mathbb{F}_p$ and sends back $c$.</p>
+</li>
+<li>
+<p>Alice computes $z \leftarrow r_\sigma + cv_{\pi\sigma}$ and sends $z$.</p>
+</li>
+<li>
+<p>Bob generates a random coin flip $b \leftarrow {0,1}$ and sends $b$.</p>
+</li>
+<li>
+<p>Alice sends $\sigma$ if $b=0$ or $\pi\sigma$ if $b=1$.</p>
+</li>
+<li>
+<p>If $b=0$, Bob can compute the first commitment himself by $C^* \leftarrow Com(\sigma, Az_{\sigma^{-1}})$. If $b=1$, Bob can compute the second commitment himself by $C^* \leftarrow Com(\pi\sigma, z - cv_{\pi\sigma})$. Bob checks if the commitment he computes matches the original commitment sent from Alice and outputs Yes/No.</p>
+</li>
+</ol>
+<p>We use a hash function to model the commitment scheme here. Given a hash function $H$:</p>
+<p>$$Com(r, m) \leftarrow H(H(r) || H(m))$$</p>
+<h2 id="from-identification-scheme-to-signature-scheme">From Identification Scheme to Signature Scheme</h2>
+<p>PKP-IDS is a scheme is a public-coin protocol. This means that the only thing that Bob provides during the protocol is nothing but randomly sampled bits. This implies that we could use Fiat-Shamir heuristic to compress the interactive protocol into a non-interactive protocol by producing Bob&rsquo;s challenge via hashing Alice&rsquo;s transcript.</p>
+<p>However, due to the $\frac{p+1}{2p}$ soundness error of the PKP-IDS scheme, we need to repeat this protocol $N$ times in order to achieve a reasonable soundness error.</p>
+<ol>
+<li>
+<p>First, Alice generates the $(A, v), \pi$ instance. Then, she samples $\sigma$ and generates the two commitments $C_0, C_1$.</p>
+</li>
+<li>
+<p>Alice is then supposed to send over $C_0, C_1$ to Bob and receive a challenge $c$. Instead of doing that, we use Fiat-Shamir to apply a hash on Alice&rsquo;s transcript and sample the challenge, i.e. $c \leftarrow H(C_0 || C_1)$. A potential strategy would be modding down the randomness bytes into the finite field and take the remainder.</p>
+</li>
+<li>
+<p>Upon deriving a challenge $c$, Alice will then compute the response $z$ using the derived $c$.</p>
+</li>
+<li>
+<p>Following the same idea of Step 2, Alice can now use the combination of the transcript to derive the next challenge $b$, i.e. $b \leftarrow H(C_0 || C_1 || z)$.</p>
+</li>
+<li>
+<p>Lastly, Alice answers the second challenge with either $\sigma$ or $\pi_sigma$ and sends the entire transcript to Bob.</p>
+</li>
+</ol>
+<p>$$
+\mathbf{PKP_{IDS}}(A, v, \pi) \rightarrow C_0, C_1, z, \sigma/\pi\sigma
+$$</p>
+<p>Upon receiving the non-interactive proof, Bob can follow the same steps as Alice to derive the challenge $c$ and $b$ respectively and invoke the same verify function in the interactive protocol to validate the proof.</p>
+<h2 id="towards-a-signature-scheme">Towards a Signature Scheme</h2>
+<p>Right now, the non-interactive proof above simply proves the knowledge of the secret premutation $\pi$. However, we would want to not only prove that, but also somehow bind this proof with a specific message $m$, such that only the ones who know $\pi$ could generate this proof. This is therefore called digital signature.</p>
+<p>How this is typically done is to encode the message $m$ as part of the randomness of the commitment scheme, and later reveal $m$ as part of opening the commitment. In our implementation, it&rsquo;s as simple as putting the message into the transcript before hashing and generating the challenges. In other words:</p>
+<p>$$c \leftarrow H(m || C_0 || C_1) \\
+b \leftarrow H(m || C_0 || C_1 || z)$$</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  <nav class="post-nav">
+     
+    <a class="next" href="https://c.rypto.cafe/posts/hello-world/"><span>Hello, Crypto</span><span>→</span></a>
+    
+  </nav>
+  
+
+  
+  
+</article>
+
+</main>
+
+    <footer class="footer">
+  <p>&copy; 2022 <a href="https://c.rypto.cafe/">Crypto Cafe ☕</a></p>
+  <p>Powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo️️</a>️</p>
+  <p>
+    <a href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">Paper 5.1</a>
+  </p>
+</footer>
+
+  </body>
+</html>

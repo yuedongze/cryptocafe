@@ -6,7 +6,18 @@
     <description>Recent content on Crypto Cafe ☕</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Feb 2022 22:31:56 -0800</lastBuildDate><atom:link href="https://c.rypto.cafe/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Feb 2022 16:21:14 -0800</lastBuildDate><atom:link href="https://c.rypto.cafe/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Permutated Kernel Problem</title>
+      <link>https://c.rypto.cafe/posts/pkp/</link>
+      <pubDate>Wed, 16 Feb 2022 16:21:14 -0800</pubDate>
+      
+      <guid>https://c.rypto.cafe/posts/pkp/</guid>
+      <description>PKPDSS: Permuted-Kernel-Problem-based Digital Signature Scheme Based on: PKP-IDS, Permutation based identification protocol.
+Idea: PKP is a problem where one is give a random matrix $A$ and a vector $v$. Then they are asked to find a permutation $\pi$ such that $A v_\pi = 0$, i.e. $v_\pi$ is the right kernel of $A$.
+Finding such permutation $\pi$ is an NP-hard problem. However, we could use a 5-round public-coin interactive protocol to prove knowledge of the secret permutation $\pi$.</description>
+    </item>
+    
     <item>
       <title>Hello, Crypto</title>
       <link>https://c.rypto.cafe/posts/hello-world/</link>
