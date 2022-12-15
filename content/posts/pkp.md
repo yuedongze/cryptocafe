@@ -1,7 +1,7 @@
 ---
 title: "Permutated Kernel Problem"
 date: 2022-02-16T16:21:14-08:00
-draft: true
+draft: false
 math: true
 ---
 
