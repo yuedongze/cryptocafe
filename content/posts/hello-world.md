@@ -1,7 +1,7 @@
 ---
 title: "Hello, Crypto"
 date: 2022-02-14T22:31:56-08:00
-draft: true
+draft: false
 math: true
 ---
 
