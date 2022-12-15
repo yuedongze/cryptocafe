@@ -1,5 +1,5 @@
-baseURL = 'https://c.rypto.cafe/'
+baseURL = 'https://k.rypto.cafe/'
 languageCode = 'en-us'
 title = 'Crypto Cafe ☕'
-theme = 'paper'
+theme = 'archie'
 relativeURLs = true
