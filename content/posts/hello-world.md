@@ -17,7 +17,5 @@ def mine_btc(block):
 ```
 
 Or maybe some $\mathcal{math}$ helps:
-
 $$
-e = mc^2
-$$
+e = mc^2$$

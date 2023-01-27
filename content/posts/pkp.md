@@ -3,6 +3,7 @@ title: "Permutated Kernel Problem"
 date: 2022-02-16T16:21:14-08:00
 draft: false
 math: true
+description: "Intro to the PKP Problem."
 ---
 
 # PKPDSS: Permuted-Kernel-Problem-based Digital Signature Scheme
@@ -27,7 +28,6 @@ A few interesting observations that [Beullens et. al. 2018](https://www.esat.kul
 - With high probability, we can convert a random matrix $A$ of dimension $m \times n$ into form $[I_m \vert A']$ where $A' \in \mathbb{F}_p^{m \times n-m}$. Then we no longer need to memorize the left hand side $I_m$ identity matrix so we can reduce the communication cost.
 
 - Instead of applying Gaussian Elimination to $A$ in order to find its right kernel $w$, we could do the other way around. First, we randomly sample vector $v$ and every column but the last for matrix $A$. We leave the last column of matrix $A$ blank. We then sample a random permutation $\pi$ and set $w = v_\pi$. Essentially, we get something like:
-
 $$
 \begin{bmatrix}
    a_{0,0} & a_{0,1} & a_{0,2} & \dots & a_{0,n-2} & a_{0,n-1}^* \\\\
@@ -40,27 +40,22 @@ w_1 \\\\
 \vdots \\\\
 w_{n-1}
 \end{bmatrix}
-= 0
-$$
-
+= 0$$
 Where $a_{i,j}$ is the i-th row and j-th column of matrix $A$ and $a_{i,n-1}^*$ is the blank column.
 
 We can see that, for each row $i$, we can make $\sum_{j=0}^{n-1} a_{i,j} w_j = 0$. Since $a_{i,n-1}^*$ is left uncomputed, we can simply compute the inverse and obtain:
 
-$$a_{i,n-1}^* = \left(-\sum_{j=0}^{n-2} a_{i,j} w_j \right) \cdot w_{n-1}^{-1}$$
+$a_{i,n-1}^* = \left(-\sum_{j=0}^{n-2} a_{i,j} w_j \right) \cdot w_{n-1}^{-1}$
 
 Note $w^{-1}_{n-1}$ can be computed once and stored in memory.
 
 Then, it's obvious to show that:
-
 $$
 \begin{align*}
 \sum_{j=0}^{n-1} a_{i,j} w_j &= a_{i,n-1}^* \cdot w_{n-1} + \sum_{i=0}^{n-2} a_{i,j} w_j\\\\
 &= \sum_{j=0}^{n-2} a_{i,j} w_j - \sum_{j=0}^{n-2} a_{i,j} w_i\\\\
 &= 0
-\end{align*}
-$$
-
+\end{align*}$$
 
 Therefore, we can do the dimension reduction trick together with the sampling trick, and obtain the key materials required for the IDS protocol.
 
@@ -86,7 +81,7 @@ The entire protocol has 5 rounds:
 
 We use a hash function to model the commitment scheme here. Given a hash function $H$:
 
-$$Com(r, m) \leftarrow H(H(r) || H(m))$$
+$Com(r, m) \leftarrow H(H(r) || H(m))$
 
 
 ## From Identification Scheme to Signature Scheme
@@ -104,11 +99,8 @@ However, due to the $\frac{p+1}{2p}$ soundness error of the PKP-IDS scheme, we n
 4. Following the same idea of Step 2, Alice can now use the combination of the transcript to derive the next challenge $b$, i.e. $b \leftarrow H(C_0 || C_1 || z)$.
 
 5. Lastly, Alice answers the second challenge with either $\sigma$ or $\pi_sigma$ and sends the entire transcript to Bob.
-
 $$
-\mathbf{PKP_{IDS}}(A, v, \pi) \rightarrow C_0, C_1, z, \sigma/\pi\sigma
-$$
-
+\mathbf{PKP_{IDS}}(A, v, \pi) \rightarrow C_0, C_1, z, \sigma/\pi\sigma$$
 Upon receiving the non-interactive proof, Bob can follow the same steps as Alice to derive the challenge $c$ and $b$ respectively and invoke the same verify function in the interactive protocol to validate the proof.
 
 ## Towards a Signature Scheme
@@ -117,5 +109,5 @@ Right now, the non-interactive proof above simply proves the knowledge of the se
 
 How this is typically done is to encode the message $m$ as part of the randomness of the commitment scheme, and later reveal $m$ as part of opening the commitment. In our implementation, it's as simple as putting the message into the transcript before hashing and generating the challenges. In other words:
 
-$$c \leftarrow H(m || C_0 || C_1) \\\\
-b \leftarrow H(m || C_0 || C_1 || z)$$
+$c \leftarrow H(m || C_0 || C_1) \\\\
+b \leftarrow H(m || C_0 || C_1 || z)$
